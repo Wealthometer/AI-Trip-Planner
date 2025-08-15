@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
-import { Globe2, Map, Icon, icons, Landmark, Plane, Send } from "lucide-react";
+import { Globe2, Map, Icon, icons, Landmark, Plane, Send, ArrowDown } from "lucide-react";
+import HeroVideoDialog from "@/components/magicui/hero-video-dialog";
 // import { title } from "process";
 
 const suggestions = [
@@ -26,9 +27,7 @@ const suggestions = [
 function Hero() {
   return (
     <div className="mt-24 w-full flex justify-center">
-
       <div className="max-w-4xl w-full text-center space-y-6">
-
         <h1 className="text-xl md:text-5xl font-bold ">
           Hey I am Your Personal{" "}
           <span className="text-primary">Trip Planner</span>
@@ -40,7 +39,6 @@ function Hero() {
         </p>
 
         <div>
-
           <div className="border rounded-2xl p-4 shadow relative">
             <Textarea
               placeholder="Create and Plan A Trip Idea"
@@ -50,17 +48,44 @@ function Hero() {
               <Send className="h-4 w-4" />
             </Button>
           </div>
-
         </div>
 
         <div className="flex gap-5">
-            {suggestions.map((suggestions, index) => (
-                <div key={index} className="flex items-center gap-2 border rounded-full p-2 cursor-pointer hover:bg-primary hover:text-white">
-                    {suggestions.icon}
-                    <h2 className="text-xs">{suggestions.title}</h2>
-                </div>
-            ))}
+          {suggestions.map((suggestions, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-2 border rounded-full p-2 cursor-pointer hover:bg-primary hover:text-white"
+            >
+              {suggestions.icon}
+              <h2 className="text-xs">{suggestions.title}</h2>
+            </div>
+          ))}
         </div>
+
+        <div className="items-center justify-center flex-column">
+
+        <h2 className="my-7 mt-14 flex gap-2 text-center justify-center">Not Sure Where To Start ..? <strong>See How It Works ..!</strong><ArrowDown /></h2>
+
+          <div className="relative">
+            <HeroVideoDialog
+              className="block dark:hidden"
+              animationStyle="from-center"
+              videoSrc="https://www.youtube.com/watch?v=TtDG42xDxjg"
+              thumbnailSrc="https://startup-template-sage.vercel.app/hero-light.png"
+              thumbnailAlt="Hero Video"
+            />
+
+            {/* <HeroVideoDialog
+              className="hidden dark:block"
+              animationStyle="from-center"
+              videoSrc="https://www.youtube.com/embed/qh3NGpYRG3I?si=4rb-zSdDkVK9qxxb"
+              thumbnailSrc="https://startup-template-sage.vercel.app/hero-dark.png"
+              thumbnailAlt="Hero Video"
+            /> */}
+          </div>
+
+        </div>
+
       </div>
     </div>
   );
