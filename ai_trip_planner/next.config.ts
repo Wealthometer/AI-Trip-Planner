@@ -6,8 +6,11 @@ const nextConfig: NextConfig = {
 
 module.exports = {
   images: {
-    domains: ["images.unsplash.com"], // ✅ allow Unsplash images
+    domains: ["images.unsplash.com"],
   },
+  // videos: {
+  //   domains: ["Youtube.com"]
+  // }
 };
 
 export default nextConfig;
