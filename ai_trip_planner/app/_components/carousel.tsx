@@ -10,7 +10,7 @@ export function TripPlannerCarousel() {
         Plan your perfect getaway with AI.
       </h2>
       <Carousel items={cards} />
-    </div>
+    </div> 
   )
 }
 
