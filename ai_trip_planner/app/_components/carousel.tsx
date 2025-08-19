@@ -1,4 +1,5 @@
 "use client"
+import { useUser } from "@clerk/nextjs"
 import { Carousel, Card } from "./ui/apple-cards-carousel"
 
 export function TripPlannerCarousel() {
@@ -15,6 +16,7 @@ export function TripPlannerCarousel() {
 }
 
 const ParisContent = () => {
+
   return (
     <div className="bg-[#F5F5F7] p-8 md:p-14 rounded-3xl mb-4">
       <p className="text-neutral-600 text-base md:text-2xl font-sans max-w-3xl mx-auto">
