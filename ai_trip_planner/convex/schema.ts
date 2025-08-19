@@ -7,5 +7,6 @@ export default defineSchema({
         imageUrl : v.string(),
         emai: v.string(),
         subscription : v.optional(v.string()),
+        // ubscription : v.optional(v.string()),
     })
 });
