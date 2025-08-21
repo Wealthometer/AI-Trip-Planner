@@ -21,7 +21,7 @@ function Provider({
   async function CreateNewUser() {
     const result = await CreateUser({
       email: user?.primaryEmailAddress?.emailAddress ?? "",
-      imageUrl: user?.imageUrl,
+      imageUrl: user?.imageUrl ?? "",
       name: user?.fullName ?? "",
     });
   }

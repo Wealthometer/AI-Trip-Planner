@@ -5,7 +5,7 @@ export const CreateNewUser = mutation({
   args: {
     name: v.string(),
     email: v.string(),
-    imageUrl: v?.string(),
+    imageUrl: v.string(),
   },
   handler: async (ctx, args) => {
     const user = await ctx.db
