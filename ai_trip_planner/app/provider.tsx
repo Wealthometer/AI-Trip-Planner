@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "./_components/Header";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -12,7 +12,7 @@ function Provider({
   children: React.ReactNode;
 }>) {
   const CreateUser = useMutation(api.user.CreateNewUser);
-
+  const [userDetail, setUserDetail] = useState<any>()
   const { user } = useUser();
 
   useEffect(() => {
@@ -25,10 +25,11 @@ function Provider({
       imageUrl: user?.imageUrl ?? "",
       name: user?.fullName ?? "",
     });
+    setUserDetail(result);
   }
 
   return (
-    <UserDetailContext.Provider value={{}}>
+    <UserDetailContext.Provider value={{userDetail, setUserDetail}}>
       <div>
         <Header />
         {children}
@@ -38,3 +39,7 @@ function Provider({
 }
 
 export default Provider;
+
+export const useUserDetail = () => {
+  return useContext(UserDetailContext)
+}
