@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SignInButton, useUser, useClerk } from "@clerk/nextjs";
+// import { ThemeToggle } from "./themetoggle";
 
 const menuOptions = [
   {
@@ -53,6 +54,8 @@ const Header = () => {
         <Link href={isSignedIn ? "/create-trip" : "#"}>
           <Button disabled={!isSignedIn}>Create New Trip</Button>
         </Link>
+
+        
       </div>
     </div>
   );
