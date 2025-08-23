@@ -28,7 +28,9 @@ const Header = () => {
   return (
     <div className="flex justify-between items-center p-5">
       <div className="flex gap-2 items-center">
-        <Image src={"/logo.svg"} alt="logo" width={30} height={30} />
+        <Link href={'/'}>
+          <Image src={"/logo.svg"} alt="logo" width={30} height={30} />
+        </Link>
         <h2 className="font-bold text-2xl">AI TRIP PLANNER</h2>
       </div>
 
