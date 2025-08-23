@@ -27,7 +27,7 @@ const aj = arcjet({
       characteristics: ["userId"],
       refillRate: 5, // Refill 5 tokens per interval
       interval: 10, // Refill every 10 seconds
-      capacity: 10, // Bucket capacity of 10 tokens
+      capacity: 3600, // Bucket capacity of 10 tokens
     }),
   ],
 });
@@ -35,7 +35,7 @@ const aj = arcjet({
 export async function GET(req: Request) {
   const decision = await aj.protect(req, {
       requested: 5,
-      userId: ""
+      userId: "user123"
   }); // Deduct 5 tokens from the bucket
   console.log("Arcjet decision", decision);
 

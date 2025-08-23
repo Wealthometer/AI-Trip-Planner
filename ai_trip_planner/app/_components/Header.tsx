@@ -51,7 +51,7 @@ const Header = () => {
           </SignInButton>
         )}
 
-        <Link href={isSignedIn ? "/create-trip" : "#"}>
+        <Link href={isSignedIn ? "/create-new-trip" : "#"}>
           <Button disabled={!isSignedIn}>Create New Trip</Button>
         </Link>
 
