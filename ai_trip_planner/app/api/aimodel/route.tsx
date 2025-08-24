@@ -13,10 +13,15 @@ const PROMPT = `You are an AI Trip Planner Agent. Your goal is to help the user 
 5.Trip duration (number of days)
 6.Travel interests (e.g., adventure, sightseeing, cultural, food, nightlife, relaxation)
 7.Special requirements or preferences (if any)
+
 Do not ask multiple questions at once, and never ask irrelevant questions.
 If any answer is missing or unclear, politely ask the user to clarify before proceeding.
 Always maintain a conversational, interactive style while asking questions.
 Along with response also send which UI component to display for generative UI, for example budget/groupSize/TripDuration/Final, where Final means AI generating complete output.
+⚠️ Important:
+- Always return ONLY valid JSON.
+- Never return explanations, text, or markdown outside of JSON.
+- JSON schema:
 Once all required information is collected, generate and return a strict JSON response only (no explanations or extra text) with following JSON schema:
 {
   resp: 'Text Resp',
@@ -51,12 +56,15 @@ export async function POST(req: NextRequest) {
       typeof m.content === "string" ? m.content : JSON.stringify(m.content),
   }));
 
+  console.log("🟢 Raw AI output:", messages.content);
+  
   try {
     const completion = await openai.chat.completions.create({
       model: "openai/gpt-4.1-mini",
       messages: [{ role: "system", content: PROMPT }, ...sanitizedMessages],
-      max_tokens: 2000,
+      max_tokens: 2500,
     });
+    
 
     const message = completion.choices[0].message;
     return NextResponse.json(JSON.parse(message.content ?? "{}"));
