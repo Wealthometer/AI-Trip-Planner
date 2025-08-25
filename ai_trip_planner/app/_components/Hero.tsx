@@ -8,7 +8,7 @@ import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 // import { title } from "process";
 
-const suggestions = [
+export const suggestions = [
   {
     title: "Create New Trip",
     icon: <Globe2 className="text-blue-500 h-5 w-5" />,
