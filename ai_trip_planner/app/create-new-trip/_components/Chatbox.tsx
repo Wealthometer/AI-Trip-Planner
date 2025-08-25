@@ -5,10 +5,12 @@ import { Loader, Send } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import EmptyBoxState from "./EmptyBoxState";
+import GroupSizeUi from "./GroupSizeUi";
 
 type Message = {
   role: string;
   content: string;
+  ui?:string
 };
 
 function Chatbox() {
@@ -43,12 +45,25 @@ function Chatbox() {
       {
         role: "assistant",
         content: result?.data?.resp,
+        ui: result?.data?.ui
       },
     ]);
 
     console.log(result.data);
     setLoading(false);
   };
+
+  const RenderGenerativeUi=(ui:string)=>{
+    if(ui == 'budget')
+    {
+
+    }
+    else if(ui == "groupSize")
+    {
+      return <GroupSizeUi onSelectedOption={(v:string) =>{setUserInput(v); onSend()}} />
+    }
+    return null
+  }
 
   return (
     <div className="h-[87vh] flex flex-col">
@@ -66,6 +81,7 @@ function Chatbox() {
             <div key={index} className="flex justify-start mt-2">
               <div className="max-w-lg bg-gray-200 text-black px-4 py-2 rounded-lg">
                 {msg.content}
+                {RenderGenerativeUi(msg.ui??'')}
               </div>
             </div>
           )

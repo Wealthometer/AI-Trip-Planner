@@ -17,7 +17,7 @@ const PROMPT = `You are an AI Trip Planner Agent. Your goal is to help the user 
 Do not ask multiple questions at once, and never ask irrelevant questions.
 If any answer is missing or unclear, politely ask the user to clarify before proceeding.
 Always maintain a conversational, interactive style while asking questions.
-Along with response also send which UI component to display for generative UI, for example budget/groupSize/TripDuration/Final, where Final means AI generating complete output.
+Along with response also send which UI component to display for generative UI, for example budget/groupSize/tripDuration/final, where Final means AI generating complete output.
 ⚠️ Important:
 - Always return ONLY valid JSON.
 - Never return explanations, text, or markdown outside of JSON.
@@ -25,7 +25,7 @@ Along with response also send which UI component to display for generative UI, f
 Once all required information is collected, generate and return a strict JSON response only (no explanations or extra text) with following JSON schema:
 {
   resp: 'Text Resp',
-  ui: 'budget/groupSize/TripDuration/Final'
+  ui: 'budget/groupSize/tripDuration/final'
 };`;
 
 export const openai = new OpenAI({
