@@ -6,11 +6,15 @@ import React, { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import EmptyBoxState from "./EmptyBoxState";
 import GroupSizeUi from "./GroupSizeUi";
+import BudgetUi from "./BudgetUi";
+import DateUi from "./DateUi";
+import TextUi from "./TextUi";
+import MultiSelectUi from "./MultiSelectUi";
 
 type Message = {
   role: string;
   content: string;
-  ui?:string
+  ui?: string;
 };
 
 function Chatbox() {
@@ -45,7 +49,7 @@ function Chatbox() {
       {
         role: "assistant",
         content: result?.data?.resp,
-        ui: result?.data?.ui
+        ui: result?.data?.ui,
       },
     ]);
 
@@ -53,21 +57,99 @@ function Chatbox() {
     setLoading(false);
   };
 
-  const RenderGenerativeUi=(ui:string)=>{
-    if(ui == 'budget')
-    {
-
+  const RenderGenerativeUi = (ui: string) => {
+    switch (ui) {
+      case "budget":
+        return (
+          <BudgetUi
+            onSelectedOption={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
+        );
+      case "groupSize":
+        return (
+          <GroupSizeUi
+            onSelectedOption={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
+        );
+      case "tripDuration":
+        return (
+          <DateUi
+            onSelectedOption={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
+        );
+      case "source":
+        return (
+          <TextUi
+            label="Where are you starting from?"
+            onSubmit={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
+        );
+      case "destination":
+        return (
+          <TextUi
+            label="Where are you traveling to?"
+            onSubmit={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
+        );
+      case "travelInterests":
+        return (
+          <MultiSelectUi
+            options={[
+              "Adventure",
+              "Sightseeing",
+              "Food",
+              "Nightlife",
+              "Relaxation",
+              "Cultural",
+            ]}
+            onSelected={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
+        );
+      case "specialRequirements":
+        return (
+          <TextUi
+            label="Any special requirements or preferences?"
+            onSubmit={(v: string) => {
+              setUserInput(v);
+              onSend();
+            }}
+          />
+        );
+      case "final":
+        return null;
+      default:
+        return null;
     }
-    else if(ui == "groupSize")
-    {
-      return <GroupSizeUi onSelectedOption={(v:string) =>{setUserInput(v); onSend()}} />
-    }
-    return null
-  }
+  };
 
   return (
     <div className="h-[87vh] flex flex-col">
-      {messages?.length==0&& <EmptyBoxState onSelectOption={(v:string)=>{setUserInput(v); onSend()}} />}
+      {messages?.length == 0 && (
+        <EmptyBoxState
+          onSelectOption={(v: string) => {
+            setUserInput(v);
+            onSend();
+          }}
+        />
+      )}
       {/* Display Messages */}
       <section className="flex-1 overflow-y-auto p-4">
         {messages.map((msg: Message, index) =>
@@ -81,19 +163,19 @@ function Chatbox() {
             <div key={index} className="flex justify-start mt-2">
               <div className="max-w-lg bg-gray-200 text-black px-4 py-2 rounded-lg">
                 {msg.content}
-                {RenderGenerativeUi(msg.ui??'')}
+                {RenderGenerativeUi(msg.ui ?? "")}
               </div>
             </div>
           )
         )}
 
-        { loading &&
+        {loading && (
           <div className="flex justify-start mt-2">
             <div className="max-w-lg bg-gray-200 text-black px-4 py-2 rounded-lg">
               <Loader className="animate-spin" />
             </div>
           </div>
-        }
+        )}
       </section>
       {/* User Input */}
       <section>

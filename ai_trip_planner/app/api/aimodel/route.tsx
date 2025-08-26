@@ -33,8 +33,10 @@ const PROMPT = `You are an AI Trip Planner Agent. Your job is to guide the user 
 ⚡ JSON Schema:
 {
   resp: "Your conversational response here",
-  ui: "budget/groupSize/tripDuration/final"
+  ui: "none" | "source" | "destination" | "groupSize" | "budget" | "tripDuration" | "travelInterests" | "specialRequirements" | "final"
 }
+
+
 
 ⚡ Final Step:
 - Once all required info (steps 1–7) is collected, generate and return ONLY the final JSON with:
@@ -44,7 +46,6 @@ const PROMPT = `You are an AI Trip Planner Agent. Your job is to guide the user 
 - The "ui" must be set to "final" at this stage.
 
 Your mission: Make the trip-planning experience fun, clear, and inspiring every step of the way!`;
-
 
 export const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
