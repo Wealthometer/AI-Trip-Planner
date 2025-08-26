@@ -39,7 +39,7 @@ function DateUi({ onSelectedOption }: any) {
 
       <button
         onClick={handleConfirm}
-        className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg"
+        className="bg-primary text-white px-6 py-2 rounded-lg"
       >
         Confirm
       </button>

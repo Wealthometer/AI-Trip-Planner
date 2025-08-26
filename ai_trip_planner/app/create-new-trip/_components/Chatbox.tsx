@@ -25,15 +25,16 @@ function Chatbox() {
   const [userInput, setUserInput] = useState<string>();
   const [loading, setLoading] = useState(false);
 
-  const onSend = async () => {
-    if (!userInput?.trim()) return;
+  const onSend = async (value?: string) => {
+    const finalInput = value ?? userInput;
+    if (!finalInput?.trim()) return;
 
     setLoading(true);
-    setUserInput("");
+    setUserInput(""); // clear text area
 
     const newMsg: Message = {
       role: "user",
-      content: userInput,
+      content: finalInput,
     };
 
     setMessages((prev: Message[]) => [...prev, newMsg]);
@@ -41,8 +42,6 @@ function Chatbox() {
     const result = await axios.post("/api/aimodel", {
       messages: [...messages, newMsg],
     });
-
-    // setMessages((prev: Message[]) => [...prev, newMsg]);
 
     setMessages((prev: Message[]) => [
       ...prev,
@@ -63,8 +62,7 @@ function Chatbox() {
         return (
           <BudgetUi
             onSelectedOption={(v: string) => {
-              setUserInput(v);
-              onSend();
+              onSend(v);
             }}
           />
         );
@@ -72,8 +70,7 @@ function Chatbox() {
         return (
           <GroupSizeUi
             onSelectedOption={(v: string) => {
-              setUserInput(v);
-              onSend();
+              onSend(v);
             }}
           />
         );
@@ -81,8 +78,7 @@ function Chatbox() {
         return (
           <DateUi
             onSelectedOption={(v: string) => {
-              setUserInput(v);
-              onSend();
+              onSend(v);
             }}
           />
         );
@@ -91,8 +87,7 @@ function Chatbox() {
           <TextUi
             label="Where are you starting from?"
             onSubmit={(v: string) => {
-              setUserInput(v);
-              onSend();
+              onSend(v);
             }}
           />
         );
@@ -101,8 +96,7 @@ function Chatbox() {
           <TextUi
             label="Where are you traveling to?"
             onSubmit={(v: string) => {
-              setUserInput(v);
-              onSend();
+              onSend(v);
             }}
           />
         );
@@ -118,8 +112,7 @@ function Chatbox() {
               "Cultural",
             ]}
             onSelected={(v: string) => {
-              setUserInput(v);
-              onSend();
+              onSend(v);
             }}
           />
         );
@@ -128,8 +121,7 @@ function Chatbox() {
           <TextUi
             label="Any special requirements or preferences?"
             onSubmit={(v: string) => {
-              setUserInput(v);
-              onSend();
+              onSend(v);
             }}
           />
         );
