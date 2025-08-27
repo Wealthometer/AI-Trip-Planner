@@ -2,7 +2,7 @@
 import axios from "axios";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader, Send } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../../../components/ui/button";
 import EmptyBoxState from "./EmptyBoxState";
 import GroupSizeUi from "./GroupSizeUi";
@@ -10,6 +10,8 @@ import BudgetUi from "./BudgetUi";
 import DateUi from "./DateUi";
 import TextUi from "./TextUi";
 import MultiSelectUi from "./MultiSelectUi";
+import FinalUi from "./FinalUi";
+import { set } from "date-fns";
 
 type Message = {
   role: string;
@@ -24,6 +26,7 @@ function Chatbox() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [userInput, setUserInput] = useState<string>();
   const [loading, setLoading] = useState(false);
+  const [isFinal, setIsFinal] = useState(false);
 
   const onSend = async (value?: string) => {
     const finalInput = value ?? userInput;
@@ -41,18 +44,21 @@ function Chatbox() {
 
     const result = await axios.post("/api/aimodel", {
       messages: [...messages, newMsg],
+      isFinal: isFinal,
     });
 
-    setMessages((prev: Message[]) => [
-      ...prev,
-      {
-        role: "assistant",
-        content: result?.data?.resp,
-        ui: result?.data?.ui,
-      },
-    ]);
+    console.log("Trip",result.data);
 
-    console.log(result.data);
+    !isFinal &&
+      setMessages((prev: Message[]) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: result?.data?.resp,
+          ui: result?.data?.ui,
+        },
+      ]);
+
     setLoading(false);
   };
 
@@ -110,6 +116,41 @@ function Chatbox() {
               "Nightlife",
               "Relaxation",
               "Cultural",
+              "Nature & Wildlife",
+              "Hiking & Trekking",
+              "Beach & Sunbathing",
+              "Water Sports",
+              "Winter Sports",
+              "Shopping & Fashion",
+              "History & Heritage",
+              "Art & Museums",
+              "Music & Festivals",
+              "Road Trips",
+              "Luxury & Resorts",
+              "Wellness & Spa",
+              "Spiritual / Religious Trips",
+              "Camping & Outdoors",
+              "Eco-Tourism / Sustainability",
+              "Cruises & Sailing",
+              "Photography Trips",
+              "Desert Safaris",
+              "Mountains & Scenic Landscapes",
+              "Theme Parks & Entertainment",
+              "Volunteer / Humanitarian Travel",
+              "Farm & Countryside",
+              "Local Experiences",
+              "Romantic Getaways / Honeymoons",
+              "Business / Work Trips",
+              "Tech & Innovation Tours",
+              "Sports Travel",
+              "Wine & Brewery Tours",
+              "Architecture & Design Tours",
+              "Wildlife Safari",
+              "Fishing Trips",
+              "Off-the-Grid / Minimalist Travel",
+              "Backpacking",
+              "Cross-Country Train Journeys",
+              "Festivals & Carnivals",
             ]}
             onSelected={(v: string) => {
               onSend(v);
@@ -126,11 +167,20 @@ function Chatbox() {
           />
         );
       case "final":
-        return null;
+        return <FinalUi viewTrip={() => console.log()} />;
       default:
         return null;
     }
   };
+
+  useEffect(() => {
+    const lastMsg = messages[messages.length - 1];
+    if (lastMsg?.ui == "final") {
+      setIsFinal(true);
+      setUserInput('Ok, Great..!');
+      onSend();
+    }
+  }, [messages]);
 
   return (
     <div className="h-[87vh] flex flex-col">
