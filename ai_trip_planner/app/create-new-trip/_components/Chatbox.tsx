@@ -12,11 +12,21 @@ import TextUi from "./TextUi";
 import MultiSelectUi from "./MultiSelectUi";
 import FinalUi from "./FinalUi";
 import { set } from "date-fns";
+import { on } from "node:stream";
 
 type Message = {
   role: string;
   content: string;
   ui?: string;
+};
+
+type TripInfo = {
+  budget: string;
+  destination: string;
+  duration: string;
+  group_size: string;
+  hotel: any;
+  itinerary: any;
 };
 
 function Chatbox() {
@@ -27,9 +37,11 @@ function Chatbox() {
   const [userInput, setUserInput] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false);
+  const [tripDetail, setTripDetail] = useState<TripInfo>();
 
   const onSend = async (value?: string) => {
     const finalInput = value ?? userInput;
+
     if (!finalInput?.trim()) return;
 
     setLoading(true);
@@ -47,7 +59,7 @@ function Chatbox() {
       isFinal: isFinal,
     });
 
-    console.log("Trip",result.data);
+    console.log("Trip", result.data);
 
     !isFinal &&
       setMessages((prev: Message[]) => [
@@ -58,6 +70,10 @@ function Chatbox() {
           ui: result?.data?.ui,
         },
       ]);
+
+    if (isFinal) {
+      setTripDetail(result?.data?.trip_plan);
+    }
 
     setLoading(false);
   };
@@ -167,7 +183,7 @@ function Chatbox() {
           />
         );
       case "final":
-        return <FinalUi viewTrip={() => console.log()} />;
+        return <FinalUi viewTrip={() => console.log()} disable={!tripDetail} />;
       default:
         return null;
     }
@@ -177,10 +193,16 @@ function Chatbox() {
     const lastMsg = messages[messages.length - 1];
     if (lastMsg?.ui == "final") {
       setIsFinal(true);
-      setUserInput('Ok, Great..!');
-      onSend();
+      setUserInput("Ok, Great..!");
+      // onSend();
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (isFinal && userInput) {
+      onSend();
+    }
+  }, [isFinal]);
 
   return (
     <div className="h-[87vh] flex flex-col">
