@@ -39,8 +39,9 @@ function Chatbox() {
   const [userInput, setUserInput] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false);
-  const [tripDetail, setTripDetail] = useState<TripInfo >();
-  const SaveTripDetail=useMutation(api.tripDetail.CreateTripDetail)
+  const [tripDetail, setTripDetail] = useState<TripInfo>();
+  const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
+  // const SaveTripDetail=useMutation(api.tripDetail.CreateTripDetail)
 
   const onSend = async (value?: string) => {
     const finalInput = value ?? userInput;
@@ -207,6 +208,10 @@ function Chatbox() {
     }
   }, [isFinal]);
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
+
   return (
     <div className="h-[87vh] flex flex-col">
       {messages?.length == 0 && (
@@ -243,7 +248,11 @@ function Chatbox() {
             </div>
           </div>
         )}
+
+        {/* 👇 magic scroll target */}
+        <div ref={messagesEndRef} />
       </section>
+
       {/* User Input */}
       <section>
         <div className="border rounded-2xl p-4 shadow relative">
