@@ -13,6 +13,8 @@ import MultiSelectUi from "./MultiSelectUi";
 import FinalUi from "./FinalUi";
 import { set } from "date-fns";
 import { on } from "node:stream";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 type Message = {
   role: string;
@@ -37,7 +39,8 @@ function Chatbox() {
   const [userInput, setUserInput] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [isFinal, setIsFinal] = useState(false);
-  const [tripDetail, setTripDetail] = useState<TripInfo>();
+  const [tripDetail, setTripDetail] = useState<TripInfo >();
+  const SaveTripDetail=useMutation(api.tripDetail.CreateTripDetail)
 
   const onSend = async (value?: string) => {
     const finalInput = value ?? userInput;
