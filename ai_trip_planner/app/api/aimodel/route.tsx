@@ -104,13 +104,9 @@ Output Schema:
   }
 }`;
 
-export const openai = new OpenAI({
+const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
   apiKey: process.env.OPENROUTER_API_KEY,
-  //   defaultHeaders: {
-  //     'HTTP-Referer': '<YOUR_SITE_URL>', // Optional. Site URL for rankings on openrouter.ai.
-  //     'X-Title': '<YOUR_SITE_NAME>', // Optional. Site title for rankings on openrouter.ai.
-  //   },
 });
 
 export async function POST(req: NextRequest) {
@@ -135,10 +131,7 @@ export async function POST(req: NextRequest) {
     const completion = await openai.chat.completions.create({
       model: "openai/gpt-4.1-mini",
       messages: [
-        {
-          role: "system",
-          content: isFinal ? FINAL_PROMPT : PROMPT,
-        },
+        { role: "system", content: isFinal ? FINAL_PROMPT : PROMPT },
         ...sanitizedMessages,
       ],
       max_tokens: 5000,
@@ -147,10 +140,8 @@ export async function POST(req: NextRequest) {
 
     const message = completion.choices[0].message;
 
-    // ✅ Fixed logging (was messages.content → always undefined)
     console.log("🟢 Raw AI output:", message?.content);
 
-    // ✅ Safer JSON parsing
     try {
       const parsed = JSON.parse(message?.content ?? "{}");
       return NextResponse.json(parsed);
@@ -158,7 +149,7 @@ export async function POST(req: NextRequest) {
       console.error("⚠️ JSON parse error:", message?.content);
       return NextResponse.json({
         resp: message?.content ?? "Sorry, I had trouble formatting that.",
-        ui: "Final",
+        ui: "final",
       });
     }
   } catch (e) {
