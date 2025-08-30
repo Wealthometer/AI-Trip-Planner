@@ -83,7 +83,7 @@ function Chatbox() {
       const tripId = uuidv4();
       await SaveTripDetail({
         tripDetail: result?.data?.trip_plan,
-        tripId: "",
+        tripId: tripId,
         uid: userDetail?._id,
       });
     }

@@ -1,90 +1,136 @@
-"use client"
-import React, { FormEvent, useState } from 'react'
-import { Send, Mail, User, MessageSquare, Plane } from "lucide-react"
+"use client";
 
-function ContactUs() {
-  const [fullname, setFullname] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
-    event.preventDefault();
-    console.log({ fullname, email, subject, message });
-    alert("Message sent! We'll get back to you soon.");
-  }
+export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("Form submitted:", formData);
+    // Hook this into API route or email service (Resend/SendGrid/etc)
+  };
+
+  // Motion variants for staggered animation
+  const fieldVariant = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.15 },
+    }),
+  };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-center"
-      style={{
-        backgroundImage:
-          "url('https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?auto=format&fit=crop&w=1920&q=80')",
-      }}
-    >
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-lg backdrop-blur-lg bg-white/20 dark:bg-black/30 shadow-2xl rounded-2xl p-10 flex flex-col text-gray-800 dark:text-gray-100 animate-fadeIn"
+    <div className="flex flex-col items-center justify-center px-6 py-16">
+      {/* Heading */}
+      <motion.h1
+        className="text-4xl md:text-5xl font-bold text-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
       >
-        <div className="flex items-center justify-center mb-6">
-          <Plane className="w-8 h-8 text-blue-500 mr-2" />
-          <h1 className="text-3xl font-extrabold tracking-wide">
-            Contact Us
-          </h1>
-        </div>
+        Get in <span className="text-primary">Touch</span>
+      </motion.h1>
+      <p className="mt-4 text-muted-foreground text-center max-w-xl">
+        Have questions, feedback, or just want to say hi? Drop us a message and
+        we&apos;ll get back to you.
+      </p>
 
-        <label className="font-medium mt-4 flex items-center gap-2">
-          <User className="w-5 h-5 text-blue-400" /> Full Name
-        </label>
-        <input
-          type="text"
-          value={fullname}
-          onChange={(e) => setFullname(e.target.value)}
-          className="bg-transparent border-b-2 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-md transition-all duration-200"
-          required
-        />
+      {/* Contact Section */}
+      <motion.div
+        className="w-full max-w-6xl mt-12 grid md:grid-cols-2 gap-10 items-center"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        {/* Form Card */}
+        <Card className="rounded-2xl shadow-lg bg-gradient-to-br from-white via-background to-gray-50 hover:shadow-xl transition-all">
+          <CardContent className="p-8">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+              {["name", "email", "message"].map((field, i) => (
+                <motion.div
+                  key={field}
+                  variants={fieldVariant}
+                  initial="hidden"
+                  animate="visible"
+                  custom={i}
+                >
+                  <label className="text-sm font-medium capitalize">
+                    {field}
+                  </label>
+                  {field === "message" ? (
+                    <Textarea
+                      name="message"
+                      placeholder="Write your message here..."
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      className="mt-1 resize-none"
+                    />
+                  ) : (
+                    <Input
+                      type={field === "email" ? "email" : "text"}
+                      name={field}
+                      placeholder={
+                        field === "email" ? "you@example.com" : "Your full name"
+                      }
+                      value={formData[field as keyof typeof formData]}
+                      onChange={handleChange}
+                      required
+                      className="mt-1"
+                    />
+                  )}
+                </motion.div>
+              ))}
+              <motion.div
+                variants={fieldVariant}
+                initial="hidden"
+                animate="visible"
+                custom={3}
+              >
+                <Button
+                  type="submit"
+                  size="lg"
+                  className="mt-2 w-full bg-primary text-white hover:opacity-90 transition-transform hover:scale-[1.02]"
+                >
+                  Send Message
+                </Button>
+              </motion.div>
+            </form>
+          </CardContent>
+        </Card>
 
-        <label className="font-medium mt-4 flex items-center gap-2">
-          <Mail className="w-5 h-5 text-blue-400" /> Email
-        </label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="bg-transparent border-b-2 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-md transition-all duration-200"
-          required
-        />
-
-        <label className="font-medium mt-4 flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-blue-400" /> Subject
-        </label>
-        <input
-          type="text"
-          value={subject}
-          onChange={(e) => setSubject(e.target.value)}
-          className="bg-transparent border-b-2 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-md transition-all duration-200"
-          required
-        />
-
-        <label className="font-medium mt-4 flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-blue-400" /> Message
-        </label>
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          className="bg-transparent border-2 py-3 px-3 h-32 focus:outline-none focus:ring-2 focus:ring-blue-400 rounded-md transition-all duration-200 resize-none"
-          required
-        ></textarea>
-
-        <button
-          type="submit"
-          className="mt-8 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-semibold text-lg shadow-lg hover:scale-105 transform transition duration-300 flex items-center justify-center gap-2"
+        {/* Image Side */}
+        <motion.div
+          className="hidden md:flex justify-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3 }}
         >
-          <Send className="w-5 h-5" /> Send Message
-        </button>
-      </form>
+          <Image
+            src="/contact.jpeg"
+            alt="Contact Illustration"
+            width={500}
+            height={500}
+            className="rounded-2xl shadow-lg border border-gray-200"
+          />
+        </motion.div>
+      </motion.div>
     </div>
-  )
+  );
 }
-
-export default ContactUs;
