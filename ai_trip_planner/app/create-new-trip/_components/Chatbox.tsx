@@ -15,6 +15,8 @@ import { set } from "date-fns";
 import { on } from "node:stream";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { useUserDetail } from "@/app/provider";
+import { v4 as uuidv4 } from "uuid";
 
 type Message = {
   role: string;
@@ -41,7 +43,8 @@ function Chatbox() {
   const [isFinal, setIsFinal] = useState(false);
   const [tripDetail, setTripDetail] = useState<TripInfo>();
   const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
-  // const SaveTripDetail=useMutation(api.tripDetail.CreateTripDetail)
+  const SaveTripDetail = useMutation(api.tripDetail.CreateTripDetail);
+  const { userDetail, setUserDetail } = useUserDetail();
 
   const onSend = async (value?: string) => {
     const finalInput = value ?? userInput;
@@ -77,6 +80,12 @@ function Chatbox() {
 
     if (isFinal) {
       setTripDetail(result?.data?.trip_plan);
+      const tripId = uuidv4();
+      await SaveTripDetail({
+        tripDetail: result?.data?.trip_plan,
+        tripId: "",
+        uid: userDetail?._id,
+      });
     }
 
     setLoading(false);
