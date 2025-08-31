@@ -24,14 +24,37 @@ type Message = {
   ui?: string;
 };
 
-type TripInfo = {
+type Hotel = {
+  name: string;
+  stars: number;
+  address: string;
+};
+
+type ItineraryItem = {
+  day: number;
+  activities: string[];
+};
+
+export type TripInfo = {
+  // origin: ReactNode;
+  origin: string;
   budget: string;
   destination: string;
   duration: string;
   group_size: string;
-  hotel: any;
-  itinerary: any;
+  hotels: {
+    hotel_name: string;
+    hotel_address: string;
+    price_per_night: string;
+    rating: number;
+    hotel_image_url: string;
+    geo_coordinates: { latitude: number; longitude: number };
+    description: string;
+  }[];
+  itinerary: any; // you can type this properly later
 };
+
+
 
 function Chatbox() {
   //   const [messages, setMessages] = useState<Message[]>();
@@ -45,6 +68,7 @@ function Chatbox() {
   const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
   const SaveTripDetail = useMutation(api.tripDetail.CreateTripDetail);
   const { userDetail, setUserDetail } = useUserDetail();
+  
 
   const onSend = async (value?: string) => {
     const finalInput = value ?? userInput;
@@ -90,7 +114,7 @@ function Chatbox() {
         tripId: tripId,
         uid: userDetail?._id,
       });
-    }
+     } 
 
     setLoading(false);
   };

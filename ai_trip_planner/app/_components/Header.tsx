@@ -26,7 +26,7 @@ const Header = () => {
           <Link href={"/"}>
             <Image src={"/logo.svg"} alt="logo" width={30} height={30} />
           </Link>
-          <h2 className="font-bold text-2xl">AI TRIP PLANNER</h2>
+          <h2 className="font-bold text-2xl">Triplytic</h2>
         </div>
 
         {/* Desktop Nav */}
