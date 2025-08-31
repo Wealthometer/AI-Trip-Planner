@@ -79,10 +79,14 @@ function Chatbox() {
       ]);
 
     if (isFinal) {
-      setTripDetail(result?.data?.trip_plan);
+      const tripPlan = result?.data?.trip_plan ?? {
+        note: "No trip details generated",
+      };
+      setTripDetail(tripPlan);
+
       const tripId = uuidv4();
       await SaveTripDetail({
-        tripDetail: result?.data?.trip_plan,
+        tripDetail: tripPlan,
         tripId: tripId,
         uid: userDetail?._id,
       });
