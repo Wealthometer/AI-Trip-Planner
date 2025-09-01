@@ -7,6 +7,7 @@ import {
 } from "motion/react";
 import React, { useEffect, useRef, useState } from "react";
 import { TripInfo } from "../../app/create-new-trip/_components/Chatbox";
+import { Calendar, User, Users, Wallet2 } from "lucide-react";
 
 interface TimelineEntry {
   title: string;
@@ -44,15 +45,29 @@ export const Timeline = ({
       className="w-full bg-white dark:bg-neutral-950 font-sans md:px-10"
       ref={containerRef}
     >
-      <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
+      <div className="max-w-7xl mx-auto py-7 px-4 md:px-8 lg:px-10">
         <h2 className="text-lg md:text-4xl mb-4 text-black dark:text-white max-w-4xl">
-          Your Trip Itinerary from {tripData?.origin} to {tripData?.destination}{" "}
+          Your Trip Itinerary from <strong className="text-primary">{tripData?.origin}</strong> to <strong className="text-primary">{tripData?.destination}</strong>{" "}
           is Ready
         </h2>
-        <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-sm">
+        {/* <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-sm">
           I&apos;ve been working on Aceternity for the past 2 years. Here&apos;s
           a timeline of my journey.
-        </p>
+        </p> */}
+          <div className="flex gap-5 items-center">
+            <div className="flex gap-2 items-center">
+              <Calendar />
+              <h2>{tripData?.duration}</h2>
+            </div>
+            <div className="flex gap-2 items-center">
+              <Wallet2 />
+              <h2>{tripData?.budget}</h2>
+            </div>
+            <div className="flex gap-2 items-center">
+              <Users />
+              <h2>{tripData?.group_size}</h2>
+            </div>
+          </div>
       </div>
 
       <div ref={ref} className="relative max-w-7xl mx-auto pb-20">
