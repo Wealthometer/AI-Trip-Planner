@@ -152,7 +152,7 @@ export async function POST(req: NextRequest) {
         ui: "final",
       });
     }
-  } catch (e) {
+  } catch (e) { 
     return NextResponse.json(e);
   }
 }
