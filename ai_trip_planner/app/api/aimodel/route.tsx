@@ -118,7 +118,7 @@ export async function POST(req: NextRequest) {
       { status: decision.reason.isRateLimit() ? 429 : 403 }
     );
   }
-
+ 
   const { messages, isFinal } = await req.json();
 
   const sanitizedMessages = messages.map((m: any) => ({
@@ -134,7 +134,7 @@ export async function POST(req: NextRequest) {
         { role: "system", content: isFinal ? FINAL_PROMPT : PROMPT },
         ...sanitizedMessages,
       ],
-      max_tokens: 30,
+      max_tokens: 5300,
       response_format: { type: "json_object" },
     });
 
