@@ -437,7 +437,7 @@ const TRIP_DATA = {
 function Itinerary() {
   const data = [
     {
-      title: "2024",
+      title: "Reccomended Hotels",
       content: (
         <div>
           <p className="mb-8 text-xs font-normal text-neutral-800 md:text-sm dark:text-neutral-200">

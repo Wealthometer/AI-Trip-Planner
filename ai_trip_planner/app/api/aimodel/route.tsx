@@ -134,7 +134,7 @@ export async function POST(req: NextRequest) {
         { role: "system", content: isFinal ? FINAL_PROMPT : PROMPT },
         ...sanitizedMessages,
       ],
-      max_tokens: 5300,
+      max_tokens: 290,
       response_format: { type: "json_object" },
     });
 
