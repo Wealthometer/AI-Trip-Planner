@@ -1,5 +1,5 @@
 import { Timeline } from "@/components/ui/timeline";
-import { Wallet } from "lucide-react";
+import { Star, Wallet } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import placeholder from "../../../public/placeholder.jpeg";
@@ -443,12 +443,26 @@ function Itinerary() {
       title: "Reccomended Hotels",
       content: (
         <div>
-          {TRIP_DATA.hotels.map((hotel,index)=> (
+          {TRIP_DATA.hotels.map((hotel, index) => (
             <div key={index}>
-              <Image src={placeholder} alt="place image" width={400} height={200} />
+              <Image
+                src={placeholder}
+                alt="place image"
+                width={400}
+                height={200}
+              />
               <h2 className="font-semibold text-lg">{hotel?.hotel_name}</h2>
               <h2 className="text-gray-500">{hotel?.hotel_address}</h2>
-              <p className="flex gap-2 text-green-600"> <Wallet/> {hotel?.price_per_night}</p>
+              <div className="flex gap-56 items-center">
+                <p className="flex gap-2 text-green-600">
+                  {/* {" "} */}
+                  <Wallet /> {hotel?.price_per_night}
+                </p>
+                <p className="text-yellow-500 flex gap-2">
+                  <Star /> {hotel?.rating}
+                </p>
+              </div>
+              <p className="line-clamp-2 text-gray-400">{hotel?.description}</p>
             </div>
           ))}
         </div>
