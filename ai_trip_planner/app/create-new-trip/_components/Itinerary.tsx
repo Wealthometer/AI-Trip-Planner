@@ -1,5 +1,8 @@
 import { Timeline } from "@/components/ui/timeline";
+import { Wallet } from "lucide-react";
+import Image from "next/image";
 import React from "react";
+import placeholder from "../../../public/placeholder.jpeg";
 
 const TRIP_DATA = {
   budget: "Luxury - No budget constraints",
@@ -441,7 +444,12 @@ function Itinerary() {
       content: (
         <div>
           {TRIP_DATA.hotels.map((hotel,index)=> (
-            
+            <div key={index}>
+              <Image src={placeholder} alt="place image" width={400} height={200} />
+              <h2 className="font-semibold text-lg">{hotel?.hotel_name}</h2>
+              <h2 className="text-gray-500">{hotel?.hotel_address}</h2>
+              <p className="flex gap-2 text-green-600"> <Wallet/> {hotel?.price_per_night}</p>
+            </div>
           ))}
         </div>
       ),

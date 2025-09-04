@@ -9,7 +9,21 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   images: {
     domains: ["images.unsplash.com"],
+    remotePatterns: [
+    {
+      protocol: "https",
+      hostname: "**", // allow any https host
+    },
+    ]
   },
+//   images: {
+//   remotePatterns: [
+//     {
+//       protocol: "https",
+//       hostname: "**", // allow any https host
+//     },
+//   ],
+// }
 };
 
 export default withBundleAnalyzer(nextConfig);

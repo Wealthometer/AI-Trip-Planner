@@ -51,8 +51,8 @@ export type TripInfo = {
   //   geo_coordinates: { latitude: number; longitude: number };
   //   description: string;
   // }[];
-  hotels: any;
-  itinerary: any;
+  hotels: Hotel[];
+  itinerary: Itinerary[];
 };
 
 type Hotel = {
@@ -83,7 +83,7 @@ type Activity = {
 };
 
 
-type DayPlan = {
+type Itinerary= {
   day: number;
   day_plan: string;
   best_time_to_visit_day: string;
