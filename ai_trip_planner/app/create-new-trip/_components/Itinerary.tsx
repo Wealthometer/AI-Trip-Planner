@@ -1,5 +1,5 @@
 import { Timeline } from "@/components/ui/timeline";
-import { Star, Ticket, Wallet } from "lucide-react";
+import { Clock, Star, Ticket, Wallet } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import placeholder from "../../../public/placeholder.jpeg";
@@ -492,7 +492,8 @@ function Itinerary() {
 
                 <h2 className="font-semibold text-lg">{activity?.place_name}</h2>
                 <p className="text-gray-500">{activity?.place_details}</p>
-                <h2 className="flex gap-2 text-blue-500"><Ticket /> {activity?.ticket_pricing}</h2>
+                <h2 className="flex gap-2 text-blue-500 line-clamp-1"><Ticket /> {activity?.ticket_pricing}</h2>
+                <p className="flex text-purple-800 gap-2"><Clock /> {activity?.time_travel_each_location}</p>
               </div>
             ))}
           </div>
