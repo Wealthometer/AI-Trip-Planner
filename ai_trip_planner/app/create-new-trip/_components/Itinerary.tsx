@@ -508,5 +508,5 @@ function Itinerary() {
     </div>
   );
 }
-
+ 
 export default Itinerary;
