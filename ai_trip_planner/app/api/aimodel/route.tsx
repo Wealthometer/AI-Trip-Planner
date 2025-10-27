@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "openai/gpt-4.1-mini",
+      model: "openai/gpt-5",
       messages: [
         { role: "system", content: isFinal ? FINAL_PROMPT : PROMPT },
         ...sanitizedMessages,
